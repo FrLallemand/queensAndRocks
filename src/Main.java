@@ -9,9 +9,9 @@ public class Main {
 	
     public static void main(String[] args) {
     	board = new Board(new Game(), 5);
-    	board.placeQueen(0,  0);
-    	System.out.println(board.getSuccessors());
-    	//testGraphic();
+    	//board.placeQueen(0,  0);
+    	//System.out.println(board.getSuccessors());
+    	testGraphic();
     	//System.out.println(board.toString());
     	//System.out.println(board.toStringAccess());
     }

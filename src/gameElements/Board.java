@@ -102,7 +102,7 @@ public class Board {
         int k = i;
         int l = j; 
         
-        while(k > 0 && l > 0){
+        while(k >= 0 && l >= 0){
             if(this.board[k][l] instanceof Queen){
                 return false;
             }
@@ -113,7 +113,7 @@ public class Board {
         k = i;
         l = j;
         
-        while(k > 0 && l < size){
+        while(k >= 0 && l < size){
             if(this.board[k][l] instanceof Queen){
                 return false;
             }
@@ -124,7 +124,7 @@ public class Board {
         k = i;
         l = j;
         
-        while(k < size && l > 0){
+        while(k < size && l >= 0){
             if(this.board[k][l] instanceof Queen){
                 return false;
             }
@@ -199,7 +199,7 @@ public class Board {
     }
     
 	public ArrayList<Board> depthFirstSearch(Board initialState) {
-		//System.out.println(initialState);
+		System.out.println(initialState);
 		ArrayList<Board> solution = new ArrayList<Board>();
 		if(initialState.isSolution()){
 			solution.add(initialState);
@@ -297,7 +297,7 @@ public class Board {
 	}
 	
 	public String toString(){
-		String s = "";
+		String s = "\n";
 		for(int i=0; i<this.board.length+2; i++){
 			s+="-";			
 		}
@@ -316,14 +316,17 @@ public class Board {
 	}
 	
     public Board clone(){
-    	Board b = new Board(this.game, this.size);
+    	Board b = new Board(this.getGame(), this.size);
     	b.setNumberOfPieces(this.numberOfPieces);
     	
     	for(int i = 0; i < this.size; i++){
     		for(int j = 0; j < this.size; j++){
+    			//board[i][j] = this.getBoard()[i][j];
+    			
     			if(this.board[i][j] instanceof Queen){
     				b.placeQueen(i, j);
     			}
+    			 
     		}
     	}
     	return b;
