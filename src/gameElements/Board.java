@@ -200,7 +200,22 @@ public class Board {
     	return successeurs;
     }
     
-	public ArrayList<Board> depthFirstSearch(Board initialState) {
+    public ArrayList<Board> getNewSuccessors(){
+    	ArrayList<Board> successeurs = new ArrayList<Board>();
+    	int nextCol = this.numberOfQueens()+1;
+    	
+    	for(int i = 0; i < this.size; i++){
+			if(this.isAccessible(nextCol, i)){
+				Board new_succ = this.clone();
+				new_succ.placeQueen(nextCol, i);
+				successeurs.add(new_succ);
+			}
+    	}
+    	
+    	return successeurs;
+    }
+
+    public ArrayList<Board> depthFirstSearch(Board initialState) {
 		//System.out.println(initialState);
 		ArrayList<Board> solution = new ArrayList<Board>();
 		if(initialState.isSolution()){
@@ -223,8 +238,7 @@ public class Board {
 		Collections.reverse(solution);
 		return solution;
 	}
-	
-
+    
 	public String solutionSteps(Board b){
 		StringBuilder sb = new StringBuilder();
 		
@@ -241,6 +255,32 @@ public class Board {
 			return depthFirstSearch(new Board(this.game, this.size));
 	}
 	
+	public ArrayList<Board> depthFirstSearch2(Board initialState) {
+		ArrayList<Board> solution = new ArrayList<Board>();
+		if(initialState.isSolution()){
+			solution.add(initialState);
+			return solution;
+		}
+		try{
+			for(Board board : initialState.getNewSuccessors()){
+				solution.addAll(depthFirstSearch2(board));
+				if(!solution.isEmpty() && solution.get(0).isSolution()){
+					solution.add(initialState);
+					return solution;
+				}
+			}
+		}
+		catch (NoSuchElementException e) {
+			System.err.println("BLAAARG !");
+		}
+		
+		Collections.reverse(solution);
+		return solution;    	
+	}
+	
+	public ArrayList<Board> depthFirstSearch2() {
+		return depthFirstSearch2(new Board(this.game, this.size));
+	}
 	
 	
 	//------------TP3----------------------
