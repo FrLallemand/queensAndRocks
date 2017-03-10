@@ -181,7 +181,7 @@ public class Board {
     
     
 	//----------TP2-----------------------
-    public ArrayList<Board> getSuccesseurs(){
+    public ArrayList<Board> getSuccessors(){
     	ArrayList<Board> successeurs = new ArrayList<Board>();
     	
     	for(int i = 0; i < this.size; i++){
