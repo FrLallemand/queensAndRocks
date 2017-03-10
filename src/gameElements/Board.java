@@ -206,6 +206,18 @@ public class Board {
 		return null;
 	}
 	
+	public String solutionSteps(Board b){
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<Board> solution = this.depthFirstSearch(b);
+		
+		for(Board step : solution){
+			sb.append(step.toString());
+		}
+		
+		return sb.toString();
+	}
+	
 	
 	//------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
