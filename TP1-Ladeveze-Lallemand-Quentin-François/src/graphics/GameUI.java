@@ -70,7 +70,7 @@ public class GameUI {
 	}
 
 	public GameUI(Board b){
-		this(b,5);
+		this(b,11);
 	}
 
 	public GameUI(){

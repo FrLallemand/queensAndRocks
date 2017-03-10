@@ -1,10 +1,6 @@
-	package gameElements;
+package gameElements;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 
 public class Board {
@@ -104,7 +100,7 @@ public class Board {
         int k = i;
         int l = j; 
         
-        while(k >= 0 && l >= 0){
+        while(k > 0 && l > 0){
             if(this.board[k][l] instanceof Queen){
                 return false;
             }
@@ -115,7 +111,7 @@ public class Board {
         k = i;
         l = j;
         
-        while(k >= 0 && l < size){
+        while(k > 0 && l < size){
             if(this.board[k][l] instanceof Queen){
                 return false;
             }
@@ -126,7 +122,7 @@ public class Board {
         k = i;
         l = j;
         
-        while(k < size && l >= 0){
+        while(k < size && l > 0){
             if(this.board[k][l] instanceof Queen){
                 return false;
             }
@@ -175,7 +171,7 @@ public class Board {
 		if((i >= 0 && i<this.size) &&
 		   (j >= 0 && j<this.size)){
 	        if(isAccessible(i, j)){        	
-	            this.setPiece(i, j, game.getQueen0());
+	            this.board[i][j] = game.getQueen0();
 	            return true;
 	        }
 		}
@@ -184,63 +180,10 @@ public class Board {
     
     
 	//----------TP2-----------------------
-    public ArrayList<Board> getSuccessors(){
-    	ArrayList<Board> successeurs = new ArrayList<Board>();
-    	
-    	for(int i = 0; i < this.size; i++){
-    		for(int j = 0; j < this.size; j++){
-    			if(this.isAccessible(i, j)){
-    				Board new_succ = this.clone();
-    				new_succ.placeQueen(i, j);
-    				successeurs.add(new_succ);
-    			}
-    		}
-    	}
-    	
-    	return successeurs;
-    }
-    
-	public ArrayList<Board> depthFirstSearch(Board initialState) {
-		//System.out.println(initialState);
-		ArrayList<Board> solution = new ArrayList<Board>();
-		if(initialState.isSolution()){
-			solution.add(initialState);
-			return solution;
-		}
-		try{
-			for(Board board : initialState.getSuccessors()){
-					solution.addAll(depthFirstSearch(board));
-					if(!solution.isEmpty() && solution.get(0).isSolution()){
-						solution.add(initialState);
-						return solution;
-				}
-			}
-		}
-		catch (NoSuchElementException e) {
-			System.err.println("BLAAARG !");
-		}
-		
-		Collections.reverse(solution);
-		return solution;
+	public ArrayList<Board> depthFirstSearch(Board b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-
-	public String solutionSteps(Board b){
-		StringBuilder sb = new StringBuilder();
-		
-		ArrayList<Board> solution = this.depthFirstSearch(b);
-		
-		for(Board step : solution){
-			sb.append(step.toString());
-		}
-		
-		return sb.toString();
-	}
-	
-	public ArrayList<Board> depthFirstSearch() {
-			return depthFirstSearch(new Board(this.game, this.size));
-	}
-	
 	
 	
 	//------------TP3----------------------
@@ -301,7 +244,7 @@ public class Board {
 	}
 	
 	public String toString(){
-		String s = "\n";
+		String s = "";
 		for(int i=0; i<this.board.length+2; i++){
 			s+="-";			
 		}
@@ -320,28 +263,9 @@ public class Board {
 	}
 	
     public Board clone(){
-    	Board b = new Board(this.getGame(), this.size);
-    	b.setNumberOfPieces(this.numberOfPieces);
-    	
-    	for(int i = 0; i < this.size; i++){
-    		for(int j = 0; j < this.size; j++){
-    			//board[i][j] = this.getBoard()[i][j];
-    			
-    			if(this.board[i][j] instanceof Queen){
-    				b.placeQueen(i, j);
-    			}
-    			 
-    		}
-    	}
+    	Board b = new Board(this.game, this.size);
     	return b;
     }
 
-    public boolean isSolution(){
-    	boolean result = false;
-    	if(this.numberOfQueens() == this.size){
-    		result = true;
-    	}
-    	return result;
-    }
 
 }
