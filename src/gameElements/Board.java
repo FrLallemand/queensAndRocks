@@ -1,4 +1,4 @@
-package gameElements;
+	package gameElements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,6 +181,22 @@ public class Board {
     
     
 	//----------TP2-----------------------
+    public ArrayList<Board> getSuccesseurs(){
+    	ArrayList<Board> successeurs = new ArrayList<Board>();
+    	
+    	for(int i = 0; i < this.size; i++){
+    		for(int j = 0; j < this.size; j++){
+    			if(this.isAccessible(i, j)){
+    				Board new_succ = this.clone();
+    				new_succ.placeQueen(i, j);
+    				successeurs.add(new_succ);
+    			}
+    		}
+    	}
+    	
+    	return successeurs;
+    }
+    
 	public ArrayList<Board> depthFirstSearch(Board b) {
 		ArrayList<Board> solution = new ArrayList<>();
 		ArrayList<Board> suc = this.getSuccessors();
@@ -269,6 +285,15 @@ public class Board {
 	
     public Board clone(){
     	Board b = new Board(this.game, this.size);
+    	b.setNumberOfPieces(this.numberOfPieces);
+    	
+    	for(int i = 0; i < this.size; i++){
+    		for(int j = 0; j < this.size; j++){
+    			if(this.board[i][j] instanceof Queen){
+    				b.placeQueen(i, j);
+    			}
+    		}
+    	}
     	return b;
     }
 
