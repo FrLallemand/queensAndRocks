@@ -8,8 +8,10 @@ public class Main {
 	private static Board board;
 	
     public static void main(String[] args) {
-    	board = new Board(new Game(), 10);
-    	testGraphic();
+    	board = new Board(new Game(), 5);
+    	board.placeQueen(0,  0);
+    	System.out.println(board.getSuccessors());
+    	//testGraphic();
     	//System.out.println(board.toString());
     	//System.out.println(board.toStringAccess());
     }

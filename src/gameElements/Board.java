@@ -199,22 +199,25 @@ public class Board {
     }
     
 	public ArrayList<Board> depthFirstSearch(Board initialState) {
-		ArrayList<Board> solution = new ArrayList<>();
+		//System.out.println(initialState);
+		ArrayList<Board> solution = new ArrayList<Board>();
 		if(initialState.isSolution()){
 			solution.add(initialState);
 			return solution;
 		}
-		for(Board board : initialState.getSuccessors()){
-			try{
-				solution.addAll(depthFirstSearch(board));
-				solution.add(initialState);
-			}
-			catch (NoSuchElementException e) {
-				System.out.println("liste vide");
-				return null;
+		try{
+			for(Board board : initialState.getSuccessors()){
+					solution.addAll(depthFirstSearch(board));
+					if(!solution.isEmpty() && solution.get(0).isSolution()){
+						solution.add(initialState);
+						return solution;
+				}
 			}
 		}
-		throw new NoSuchElementException();
+		catch (NoSuchElementException e) {
+			System.err.println("PUTPUTPUT !");
+		}
+		return solution;
 	}
 	
 
@@ -231,17 +234,10 @@ public class Board {
 	}
 	
 	public ArrayList<Board> depthFirstSearch() {
-		try{
-			Board initialState = new Board(this.game, this.size);
-			ArrayList<Board> solution = new ArrayList<>();
-			solution.addAll(depthFirstSearch(initialState));
-			return depthFirstSearch();
-		}
-		catch( NoSuchElementException e){
-			System.out.println("liste vide");
-			return null;
-		}
+			return depthFirstSearch(new Board(this.game, this.size));
 	}
+	
+	
 	
 	//------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
