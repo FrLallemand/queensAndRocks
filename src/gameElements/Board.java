@@ -1,6 +1,7 @@
 package gameElements;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Board {
@@ -181,7 +182,11 @@ public class Board {
     
 	//----------TP2-----------------------
 	public ArrayList<Board> depthFirstSearch(Board b) {
-		// TODO Auto-generated method stub
+		ArrayList<Board> solution = new ArrayList<>();
+		ArrayList<Board> suc = this.getSuccessors();
+		for(Board board : suc){
+			
+		}
 		return null;
 	}
 	
@@ -267,5 +272,12 @@ public class Board {
     	return b;
     }
 
+    public boolean isSolution(){
+    	boolean result = false;
+    	if(this.board.length == this.numberOfPieces){
+    		result = true;
+    	}
+    	return result;
+    }
 
 }
