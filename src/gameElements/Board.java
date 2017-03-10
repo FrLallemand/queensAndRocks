@@ -219,20 +219,12 @@ public class Board {
 	
 	public ArrayList<Board> depthFirstSearch() {
 		try{
+			Board initialState = new Board(this.game, this.size);
 			ArrayList<Board> solution = new ArrayList<>();
-			ArrayList<Board> suc = this.getSuccessors();
-			for(Board board : suc){
-				solution.addAll(depthFirstSearch(board));
-				if(!solution.isEmpty() && board.isSolution()){
-					return solution;
-				}
-				else {
-					throw new NoSuchElementException();
-				}
-			}
-			return solution;
+			solution.addAll(depthFirstSearch(initialState));
+			return depthFirstSearch();
 		}
-		catch (NoSuchElementException e) {
+		catch( NoSuchElementException e){
 			System.out.println("liste vide");
 			return null;
 		}
