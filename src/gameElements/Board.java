@@ -210,8 +210,7 @@ public class Board {
 				new_succ.placeQueen(nextCol, i);
 				successeurs.add(new_succ);
 			}
-    	}
-    	
+    	}    	
     	return successeurs;
     }
 
@@ -282,6 +281,89 @@ public class Board {
 		return depthFirstSearch2(new Board(this.game, this.size));
 	}
 	
+	public int[] boardToArray(){
+		int[] tab = new int[this.size];
+		for(int i=0; i<this.size; i++){
+			for(int j=0; j<this.size; j++){
+				if(!this.isEmpty(i, j)){
+					tab[i] = j;
+				}
+				else {
+					tab[i] = -1;
+				}
+			}
+		}
+		return tab;
+	}
+
+	public Board arrayToBoard(int[] array){
+		Board b = new Board(new Game(), array.length);
+		
+		for(int i=0; i<array.length; i++){
+			if(array[i] != -1){
+				b.placeQueen(i, array[i]);
+			}		
+		}
+		return b;
+	}
+	
+	public ArrayList<int[]> getArraySuccessors(int[] array){
+    	ArrayList<int[]> successeurs = new ArrayList<>();
+    	int nextCol = this.numberOfQueens()+1;
+    	
+    	for(int i = 0; i < array.length; i++){
+    		if(array[i] == -1){
+				if(this.isAccessible(nextCol, i)){
+					int[] new_succ = array;
+					new_succ[nextCol] = i;
+					successeurs.add(new_succ);
+				}
+    		}
+    	}    	
+    	return successeurs;
+	}
+	
+	public boolean isSolutionArray(int[] array){
+		boolean result = true;
+    	for(int i = 0; i < array.length; i++){
+    		if(array[i] == -1){
+    			result = false;
+    			break;
+    		}
+    	}
+    	return result;
+	}
+	
+	public ArrayList<int[]> depthFirstSearchArray(int[] initialState) {
+		ArrayList<int[]> solution = new ArrayList<>();
+		if(isSolutionArray(initialState)){
+			solution.add(initialState);
+			return solution;
+		}
+		try{
+			for(int[] i : getArraySuccessors(initialState)){
+				solution.addAll(depthFirstSearchArray(i));
+				if(!solution.isEmpty() && isSolutionArray(solution.get(0))){
+					solution.add(initialState);
+					return solution;
+				}
+			}
+		}
+		catch (NoSuchElementException e) {
+			System.err.println("BLAAARG !");
+		}
+		
+		Collections.reverse(solution);
+		return solution;    	
+	}
+	
+	public ArrayList<int[]> depthFirstSearchArray() {
+		int[] solution = new int[this.size];
+		for(int i=0; i<this.size; i++){
+			solution[i] = -1;
+		}
+		return depthFirstSearchArray(solution);
+	}
 	
 	//------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
