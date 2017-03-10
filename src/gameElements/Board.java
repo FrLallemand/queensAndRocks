@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class Board {
@@ -197,15 +198,26 @@ public class Board {
     	return successeurs;
     }
     
-	public ArrayList<Board> depthFirstSearch(Board b) {
+	public ArrayList<Board> depthFirstSearch(Board initialState) {
 		ArrayList<Board> solution = new ArrayList<>();
-		ArrayList<Board> suc = this.getSuccessors();
-		for(Board board : suc){
-			
+		if(initialState.isSolution()){
+			solution.add(initialState);
+			return solution;
 		}
-		return null;
+		for(Board board : initialState.getSuccessors()){
+			try{
+				solution.addAll(depthFirstSearch(board));
+				solution.add(initialState);
+			}
+			catch (NoSuchElementException e) {
+				System.out.println("liste vide");
+				return null;
+			}
+		}
+		throw new NoSuchElementException();
 	}
 	
+
 	public String solutionSteps(Board b){
 		StringBuilder sb = new StringBuilder();
 		
@@ -218,6 +230,18 @@ public class Board {
 		return sb.toString();
 	}
 	
+	public ArrayList<Board> depthFirstSearch() {
+		try{
+			Board initialState = new Board(this.game, this.size);
+			ArrayList<Board> solution = new ArrayList<>();
+			solution.addAll(depthFirstSearch(initialState));
+			return depthFirstSearch();
+		}
+		catch( NoSuchElementException e){
+			System.out.println("liste vide");
+			return null;
+		}
+	}
 	
 	//------------TP3----------------------
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
