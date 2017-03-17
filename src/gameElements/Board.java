@@ -541,12 +541,34 @@ public class Board {
 	}
 
 	public boolean placeQueen2(int i, int j, Player player) {
-		// TODO Auto-generated method stub
+		if((i >= 0 && i<this.size) &&
+		   (j >= 0 && j<this.size)){
+		        if(isAccessible2(i, j, player)){        	
+		        	if(player == game.getPlayer0()){		        		
+		        		this.setPiece(i, j, game.getQueen0());
+		        	}
+		        	if(player == game.getPlayer1()){		        		
+		        		this.setPiece(i, j, game.getQueen1());
+		        	}		        	
+		            return true;
+		        }
+			}
 		return false;
 	}
 
 	public boolean placeRock2(int i, int j, Player player) {
-		// TODO Auto-generated method stub
+		if((i >= 0 && i<this.size) &&
+		   (j >= 0 && j<this.size)){
+	        if(isAccessible2(i, j, player)){        	
+	        	if(player == game.getPlayer0()){		        		
+	        		this.setPiece(i, j, game.getRock0());
+	        	}
+	        	if(player == game.getPlayer1()){
+	        		this.setPiece(i, j, game.getRock1());
+	        	}
+	            return true;
+	        }
+		}
 		return false;
 	}
 	
