@@ -16,9 +16,12 @@ public class Board {
 	private Game game;
     private Square[][] board;
     private int size;
-    private int numberOfPieces;
+    private int numberOfPieces;       
+    private int rocksPlayer0, rocksPlayer1;
     
-    int rocksPlayer0, rocksPlayer1;
+    private static int queenValue = 5;
+    private static int rockValue = 2;
+    
     //ATTENTION
     //Ceci est un squelette incomplet contenant uniquement le profil de quelques méthodes, dans le but de compiler la classe GameUI sans erreurs
     //Il manque les getters et les setters ainsi que les classes externes telles que Square, Eval, Game, Player,...
@@ -387,11 +390,37 @@ public class Board {
 
 	
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
-	
+    public int numberOfAccessible2(Player player) {
+        int acc = 0;
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                if(isAccessible2(i, j, player)){
+                    acc++;
+                }
+            }
+        }
+        return acc;
+    }
+
+	public String toStringAccess2(Player player){
+		String s = "";
+		for(int i=0; i<this.board.length; i++){
+			for(int j=0; j<this.board[0].length; j++){
+					if(this.isAccessible2(i, j, player)){
+						s+=" ";
+					}
+					else {
+						s+="X";
+					}
+			}
+		}
+		return s;
+
+	}
+
 	public boolean placeQueen2(int i, int j, Player player) {
 		// TODO Auto-generated method stub
 		return false;
@@ -421,10 +450,34 @@ public class Board {
 	}
 	
 	public int getScore(Player player){
-		// TODO Auto-generated method stub
-		return 0;
+		int scoreQueens = this.numberOfQueens2(player) * queenValue;
+		int scoreRocks = this.numberOfRocks2(player) * rockValue;		
+		return scoreQueens + scoreRocks;
+	}
+	
+	public int numberOfQueens2(Player player){
+        int acc = 0;
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                if(this.board[i][j] instanceof Queen && this.board[i][j].getPlayer() == player){
+                    acc++;
+                }
+            }
+        }
+        return acc;
 	}
 
+	public int numberOfRocks2(Player player){
+        int acc = 0;
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                if(this.board[i][j] instanceof Rock && this.board[i][j].getPlayer() == player){
+                    acc++;
+                }
+            }
+        }
+        return acc;
+	}
 
 
 	//----------------------TP4&5--------------------------
