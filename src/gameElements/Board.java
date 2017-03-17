@@ -17,6 +17,8 @@ public class Board {
     private Square[][] board;
     private int size;
     private int numberOfPieces;
+    
+    int rocksPlayer0, rocksPlayer1;
     //ATTENTION
     //Ceci est un squelette incomplet contenant uniquement le profil de quelques méthodes, dans le but de compiler la classe GameUI sans erreurs
     //Il manque les getters et les setters ainsi que les classes externes telles que Square, Eval, Game, Player,...
@@ -26,7 +28,8 @@ public class Board {
         this.size = size;
         this.numberOfPieces = 0;
         this.board = new Square[size][size];
-        
+        this.rocksPlayer0 = size;
+        this.rocksPlayer1 = size;
         for(int i = 0; i < size; i ++){
             for(int j = 0; j < size; j++){
                 this.board[i][j] = g.getEmpty();
@@ -366,6 +369,23 @@ public class Board {
 	}
 	
 	//------------TP3----------------------
+	public int getRocksPlayer0() {
+		return rocksPlayer0;
+	}
+
+	public void setRocksPlayer0(int rocksPlayer0) {
+		this.rocksPlayer0 = rocksPlayer0;
+	}
+
+	public int getRocksPlayer1() {
+		return rocksPlayer1;
+	}
+
+	public void setRocksPlayer1(int rocksPlayer1) {
+		this.rocksPlayer1 = rocksPlayer1;
+	}
+
+	
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
 		// TODO Auto-generated method stub
 		return false;
@@ -455,6 +475,8 @@ public class Board {
     			 
     		}
     	}
+    	b.setRocksPlayer0(this.getRocksPlayer0());
+    	b.setRocksPlayer1(this.getRocksPlayer1());
     	return b;
     }
 
