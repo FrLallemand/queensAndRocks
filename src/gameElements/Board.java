@@ -391,7 +391,7 @@ public class Board {
 	
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
 		//Au-dessus de la pièce
-		for(int k = i - 1; k > 0; k--){
+		for(int k = i - 1; k >= 0; k--){
 			if(this.board[k][j] instanceof Queen){
 				if(((Queen)this.board[k][j]).getPlayer() != currentPlayer){
 					return false;
@@ -415,7 +415,7 @@ public class Board {
 		}
 		
 		//À gauche d'une pièce
-		for(int k = j -  1; k > 0; k--){
+		for(int k = j -  1; k >= 0; k--){
 			if(this.board[i][k] instanceof Queen){
 				if(((Queen)this.board[i][k]).getPlayer() != currentPlayer){
 					return false;
@@ -442,7 +442,7 @@ public class Board {
 		int l = j - 1;
 		
 		//En haut à gauche
-		while(k > 0 && l > 0){
+		while(k >= 0 && l >= 0){
 			if(this.board[k][l] instanceof Queen){
 				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
 					return false;
@@ -478,7 +478,7 @@ public class Board {
 		l = j - 1;
 		
 		//En bas à gauche
-		while(k < this.size && l > 0){
+		while(k < this.size && l >= 0){
 			if(this.board[k][l] instanceof Queen){
 				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
 					return false;
@@ -495,7 +495,7 @@ public class Board {
 		k = i - 1;
 		l = j + 1;
 		
-		while(k > 0 && l < this.size){
+		while(k >= 0 && l < this.size){
 			if(this.board[k][l] instanceof Queen){
 				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
 					return false;
