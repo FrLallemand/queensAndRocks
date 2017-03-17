@@ -387,10 +387,127 @@ public class Board {
 
 	
 	public boolean isAccessible2(int i, int j, Player currentPlayer) {
-		// TODO Auto-generated method stub
-		return false;
+		//Au-dessus de la pièce
+		for(int k = i - 1; k > 0; k--){
+			if(this.board[k][j] instanceof Queen){
+				if(((Queen)this.board[k][j]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[k][j] instanceof Rock){
+				break;
+			}
+		}
+		
+		//En-dessous d'une pièce
+		for(int k = i + 1; k < this.size; k++){
+			if(this.board[k][j] instanceof Queen){
+				if(((Queen)this.board[k][j]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[k][j] instanceof Rock){
+				break;
+			}			
+		}
+		
+		//À gauche d'une pièce
+		for(int k = j -  1; k > 0; k--){
+			if(this.board[i][k] instanceof Queen){
+				if(((Queen)this.board[i][k]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[i][k] instanceof Rock){
+				break;
+			}
+		}
+		
+		//À droite de la pièce
+		for(int k = j -  1; k > 0; k--){
+			if(this.board[i][k] instanceof Queen){
+				if(((Queen)this.board[i][k]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[i][k] instanceof Rock){
+				break;
+			}
+		}
+
+		int k = i - 1;
+		int l = j - 1;
+		
+		//En haut à gauche
+		while(k > 0 && l > 0){
+			if(this.board[k][l] instanceof Queen){
+				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[k][l] instanceof Rock){
+				break;
+			}
+			
+			k--;
+			l--;
+		}
+		
+		k = i + 1;
+		l = j + 1;
+		
+		//En bas à droite
+		while(k < this.size && l < this.size){
+			if(this.board[k][l] instanceof Queen){
+				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[k][l] instanceof Rock){
+				break;
+			}
+			
+			k++;
+			l++;
+		}
+		
+		k = i + 1;
+		l = j - 1;
+		
+		//En bas à gauche
+		while(k < this.size && l > 0){
+			if(this.board[k][l] instanceof Queen){
+				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[k][l] instanceof Rock){
+				break;
+			}
+			
+			k++;
+			l--;
+		}
+		
+		k = i - 1;
+		l = j + 1;
+		
+		while(k > 0 && l < this.size){
+			if(this.board[k][l] instanceof Queen){
+				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
+					return false;
+				}
+			}
+			else if(this.board[k][l] instanceof Rock){
+				break;
+			}
+			
+			k--;
+			l++;
+		}
+		
+        return true;
 	}
-	
 	
 	public boolean placeQueen2(int i, int j, Player player) {
 		// TODO Auto-generated method stub
