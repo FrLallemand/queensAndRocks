@@ -427,7 +427,7 @@ public class Board {
 		}
 		
 		//À droite de la pièce
-		for(int k = j -  1; k > 0; k--){
+		for(int k = j +  1; k < this.size; k++){
 			if(this.board[i][k] instanceof Queen){
 				if(((Queen)this.board[i][k]).getPlayer() != currentPlayer){
 					return false;
