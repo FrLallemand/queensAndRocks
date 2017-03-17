@@ -383,8 +383,21 @@ public class Board {
 	}
 	
 	public int getNumberOfRocksLeft(Player player){
-		// TODO Auto-generated method stub
-		return 0;  
+		if(player == this.game.getPlayer0()){
+			return this.rocksPlayer0;
+		}
+		else{
+			return this.rocksPlayer1;
+		}
+	}
+	
+	public void useRock(Player player){
+		if(player == this.game.getPlayer0()){
+			this.rocksPlayer0--;
+		}
+		else{
+			this.rocksPlayer1--;
+		}
 	}
 	
 	public int getScore(Player player){
