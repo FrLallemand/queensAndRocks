@@ -27,7 +27,8 @@ public class Main {
         	if(!board.placeQueen(i, j)){
         		System.out.println("Impossible de placer à cet endroit.");
         	}        	        	
-    	}
+    	}	
+
     	
     }
 
