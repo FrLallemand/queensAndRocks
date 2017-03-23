@@ -655,7 +655,25 @@ public class Board {
 		return e_sortie;
 	}
 	
-	public Board evaluation(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation, Player playing) {
+	public float evaluation(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation, Player playing) {
+		ArrayList<Board> successeurs = new ArrayList<>();
+		if(this.isFinal()){
+			if(evaluation.getEval(currentPlayer, b) > 0){
+				return Float.POSITIVE_INFINITY;
+			}
+			else if(evaluation.getEval(currentPlayer, b) == 0){
+				return 0;
+			}
+			else{
+				return Float.NEGATIVE_INFINITY;
+			}
+		}
+		
+		if(minimaxDepth == 0){
+			return evaluation.getEval(currentPlayer, b);
+		}
+		
+		successeurs = b.getSuccessors2(currentPlayer);
 		
 		return null;
 	}
