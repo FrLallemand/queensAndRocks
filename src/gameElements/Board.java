@@ -641,8 +641,18 @@ public class Board {
 	}
 
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
-		
-		return null;
+		ArrayList<Board> successeurs = getSuccessors2(currentPlayer);
+		float score_max = Float.NEGATIVE_INFINITY;
+		float score;
+		Board e_sortie = new Board(new Game());
+		for(Board s : successeurs){
+			score = evaluation.getEval(currentPlayer, b);
+			if(score > score_max){
+				e_sortie = s;
+				score_max = score;
+			}
+		}
+		return e_sortie;
 	}
 	
 	public Board evaluation(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation, Player playing) {
