@@ -13,5 +13,4 @@ public class Eval0 implements Eval {
 		}
 		return Math.abs(b.getScore(player) - b.getScore(adversaire));
 	}
-
 }
