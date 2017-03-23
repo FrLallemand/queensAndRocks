@@ -629,7 +629,14 @@ public class Board {
 
 	//----------------------TP4&5--------------------------
 	public boolean isFinal() {
-		// TODO Auto-generated method stub
+		if(this.rocksPlayer0 == 0 && this.numberOfAccessible2(this.game.getPlayer0()) == 0){
+			return true;
+		}
+		
+		if(this.rocksPlayer1 == 0 && this.numberOfAccessible2(this.game.getPlayer1()) == 0){
+			return true;
+		}
+		
 		return false;
 	}
 
