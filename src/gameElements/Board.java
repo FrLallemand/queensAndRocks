@@ -559,13 +559,19 @@ public class Board {
 	public boolean placeRock2(int i, int j, Player player) {
 		if((i >= 0 && i<this.size) &&
 		   (j >= 0 && j<this.size)){
-	        if(isAccessible2(i, j, player)){        	
-	        	if(player == game.getPlayer0()){		        		
-	        		this.setPiece(i, j, game.getRock0());
+	        if(this.board[i][j] instanceof Empty){        	
+	        	if(player == game.getPlayer0()){	        
+	        		if(this.rocksPlayer0 > 0){
+		        		this.setPiece(i, j, game.getRock0());
+		        		this.useRock(player);
+	        		}
 	        	}
-	        	if(player == game.getPlayer1()){
-	        		this.setPiece(i, j, game.getRock1());
-	        	}
+        		if(player == game.getPlayer1()){
+        			if(this.rocksPlayer1 > 0){
+			    		this.setPiece(i, j, game.getRock1());
+		        		this.useRock(player);
+        			}	
+    			}
 	            return true;
 	        }
 		}
@@ -628,10 +634,29 @@ public class Board {
 	}
 
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
+	public Board evaluation(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation, Player playing) {
+		
+		return null;
+	}
+
+	public ArrayList<Board> getSuccessors2(Player p){
+    	ArrayList<Board> successeurs = new ArrayList<Board>();
+    	
+    	for(int i = 0; i < this.size; i++){
+    		for(int j = 0; j < this.size; j++){
+    			if(this.isAccessible2(i, j, p)){
+    				Board new_succ = this.clone();
+    				new_succ.placeQueen(i, j);
+    				successeurs.add(new_succ);
+    			}
+    		}
+    	}    	
+    	return successeurs;
+    }
 	
 	public String toStringAccess(){
 		String s = "";
