@@ -4,7 +4,14 @@ public class Eval0 implements Eval {
 
 	@Override
 	public float getEval(Player player, Board b) {
-		return 0;
+		Player adversaire;
+		if (player == b.getGame().getPlayer0()){
+			adversaire = b.getGame().getPlayer0();
+		}
+		else{
+			adversaire = b.getGame().getPlayer1();			
+		}
+		return Math.abs(b.getScore(player) - b.getScore(adversaire));
 	}
 
 }
