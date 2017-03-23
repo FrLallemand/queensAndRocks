@@ -646,7 +646,7 @@ public class Board {
 		float score;
 		Board e_sortie = new Board(new Game());
 		for(Board s : successeurs){
-			score = evaluation.getEval(currentPlayer, b);
+			score = evaluation(b, currentPlayer, minimaxDepth, evaluation, s.getGame().otherPlayer(cu));
 			if(score > score_max){
 				e_sortie = s;
 				score_max = score;
