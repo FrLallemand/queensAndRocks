@@ -641,33 +641,31 @@ public class Board {
 	}
 
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
+		System.out.println("minimax est appellé.");
 		ArrayList<Board> successeurs = getSuccessors2(currentPlayer);
 		float score_max = Float.NEGATIVE_INFINITY;
 		float score;
 		Board e_sortie = new Board(new Game(), b.size);
+		
+		if(e_sortie.isFinal()){
+			return e_sortie;
+		}
+		
 		for(Board s : successeurs){
 			score = evaluation(b, currentPlayer, minimaxDepth, evaluation, currentPlayer);
-			if(score > score_max){
+			System.out.println("Le score est : " + score);
+			if(score >= score_max){
 				e_sortie = s;
 				score_max = score;
 			}
 		}
+		
+		System.out.println("minimax retourne " + e_sortie);
 		return e_sortie;
 	}
 	
 	public float evaluation(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation, Player playing) {
 		ArrayList<Board> successeurs = new ArrayList<>();
-		if(b.isFinal()){
-			if(evaluation.getEval(currentPlayer, b) > 0){
-				return Float.POSITIVE_INFINITY;
-			}
-			else if(evaluation.getEval(currentPlayer, b) == 0){
-				return 0;
-			}
-			else{
-				return Float.NEGATIVE_INFINITY;
-			}
-		}
 		
 		if(minimaxDepth == 0){
 			return evaluation.getEval(currentPlayer, b);
