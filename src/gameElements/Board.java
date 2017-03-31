@@ -641,12 +641,15 @@ public class Board {
 	}
 
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
-		ArrayList<Board> successeurs = getSuccessors2(currentPlayer);
+		ArrayList<Board> successeurs = b.getSuccessors2(currentPlayer);
 		float score_max = Float.NEGATIVE_INFINITY;
 		float score;
 		Board e_sortie = new Board(new Game(), b.size);
+		if(b.isFinal()){
+			return b;
+		}
 		for(Board s : successeurs){
-			score = evaluation(b, currentPlayer, minimaxDepth, evaluation, currentPlayer);
+			score = evaluation(s, currentPlayer, minimaxDepth, evaluation, currentPlayer);
 			if(score > score_max){
 				e_sortie = s;
 				score_max = score;
@@ -684,17 +687,17 @@ public class Board {
 		float score_min = Float.POSITIVE_INFINITY;
 		successeurs = b.getSuccessors2(playing);
 		if(currentPlayer.getNumber()==playing.getNumber()){
+			System.out.println(successeurs);
 			for(Board s : successeurs){
 				score_max = Math.max(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,adversaire));
 			}			
 			return score_max;
 		} else {			
 			for(Board s : successeurs){
-				score_min = Math.min(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,adversaire));
+				score_min = Math.min(score_min,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,adversaire));
 			}			
 			return score_min;
 		}
-		//System.out.println()
 	}
 
 	public ArrayList<Board> getSuccessors2(Player p){
@@ -704,7 +707,7 @@ public class Board {
     		for(int j = 0; j < this.size; j++){
     			if(this.isAccessible2(i, j, p)){
     				Board new_succ = this.clone();
-    				new_succ.placeQueen(i, j);
+    				new_succ.placeQueen2(i, j, p);
     				successeurs.add(new_succ);
     			}
     		}
