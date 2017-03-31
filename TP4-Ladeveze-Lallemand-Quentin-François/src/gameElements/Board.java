@@ -657,13 +657,6 @@ public class Board {
 	
 	public float evaluation(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation, Player playing) {
 		ArrayList<Board> successeurs = new ArrayList<>();
-		Player adversaire;
-		if (playing.getNumber()==0) {
-			adversaire = b.getGame().getPlayer1();
-		} else {
-			adversaire = b.getGame().getPlayer0();
-		}
-		
 		if(b.isFinal()){
 			if(evaluation.getEval(currentPlayer, b) > 0){
 				return Float.POSITIVE_INFINITY;
@@ -685,16 +678,15 @@ public class Board {
 		successeurs = b.getSuccessors2(playing);
 		if(currentPlayer.getNumber()==playing.getNumber()){
 			for(Board s : successeurs){
-				score_max = Math.max(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,adversaire));
+				score_max = Math.max(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,playing));
 			}			
 			return score_max;
 		} else {			
 			for(Board s : successeurs){
-				score_min = Math.min(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,adversaire));
+				score_min = Math.min(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,playing));
 			}			
 			return score_min;
 		}
-		//System.out.println()
 	}
 
 	public ArrayList<Board> getSuccessors2(Player p){
