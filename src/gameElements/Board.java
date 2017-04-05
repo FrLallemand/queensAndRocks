@@ -389,127 +389,43 @@ public class Board {
 	}
 
 	
-	public boolean isAccessible2(int i, int j, Player currentPlayer) {
-		//Au-dessus de la pièce
-		for(int k = i - 1; k >= 0; k--){
-			if(this.board[k][j] instanceof Queen){
-				if(((Queen)this.board[k][j]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[k][j] instanceof Rock){
-				break;
-			}
+	public boolean isAccessible2(int i, int j, Player currentPlayer) {		
+		boolean result=false;
+		Queen reineEnnemie;
+		if(currentPlayer.getNumber() == 0) {
+			reineEnnemie = this.game.getQueen1();
+		} else {
+			reineEnnemie = this.game.getQueen0();
 		}
 		
-		//En-dessous d'une pièce
-		for(int k = i + 1; k < this.size; k++){
-			if(this.board[k][j] instanceof Queen){
-				if(((Queen)this.board[k][j]).getPlayer() != currentPlayer){
-					return false;
+		if (this.isEmpty(i, j)) {
+			result = true;
+			for (int x=-1; x<=1; x++) {
+				for (int y=-1; y<=1; y++) {
+					int k=i;
+					int l=j;
+					boolean stop=false;
+					while (!stop && result) {
+						k += y;
+						l += x;
+						if ((k<0 || k>=this.size)
+						|| (l<0 || l>=this.size)
+						|| (y==0 && x==0)) {
+							stop=true;
+						} else {
+							if(this.getPiece(k,l).toString().equals(reineEnnemie.toString())) {
+								result=false;
+								stop=true;
+							} else if(!this.isEmpty(k, l)) {
+								stop=true;
+							}
+						}
+					}
 				}
-			}
-			else if(this.board[k][j] instanceof Rock){
-				break;
-			}			
-		}
-		
-		//À gauche d'une pièce
-		for(int k = j -  1; k >= 0; k--){
-			if(this.board[i][k] instanceof Queen){
-				if(((Queen)this.board[i][k]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[i][k] instanceof Rock){
-				break;
-			}
-		}
-		
-		//À droite de la pièce
-		for(int k = j +  1; k < this.size; k++){
-			if(this.board[i][k] instanceof Queen){
-				if(((Queen)this.board[i][k]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[i][k] instanceof Rock){
-				break;
-			}
-		}
-
-		int k = i - 1;
-		int l = j - 1;
-		
-		//En haut à gauche
-		while(k >= 0 && l >= 0){
-			if(this.board[k][l] instanceof Queen){
-				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[k][l] instanceof Rock){
-				break;
 			}
 			
-			k--;
-			l--;
 		}
-		
-		k = i + 1;
-		l = j + 1;
-		
-		//En bas à droite
-		while(k < this.size && l < this.size){
-			if(this.board[k][l] instanceof Queen){
-				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[k][l] instanceof Rock){
-				break;
-			}
-			
-			k++;
-			l++;
-		}
-		
-		k = i + 1;
-		l = j - 1;
-		
-		//En bas à gauche
-		while(k < this.size && l >= 0){
-			if(this.board[k][l] instanceof Queen){
-				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[k][l] instanceof Rock){
-				break;
-			}
-			
-			k++;
-			l--;
-		}
-		
-		k = i - 1;
-		l = j + 1;
-		
-		while(k >= 0 && l < this.size){
-			if(this.board[k][l] instanceof Queen){
-				if(((Queen)this.board[k][l]).getPlayer() != currentPlayer){
-					return false;
-				}
-			}
-			else if(this.board[k][l] instanceof Rock){
-				break;
-			}
-			
-			k--;
-			l++;
-		}
-		
-        return true;
+		return result;
 	}
 	
     public int numberOfAccessible2(Player player) {
@@ -526,28 +442,34 @@ public class Board {
 
 	public String toStringAccess2(Player player){
 		String s = "";
-		for(int i=0; i<this.board.length; i++){
-			for(int j=0; j<this.board[0].length; j++){
-					if(this.isAccessible2(i, j, player)){
-						s+=" ";
+		for(int i=0; i<this.size; i++){
+			s += "| ";
+			for(int j=0; j<this.size; j++){
+					if(!this.isAccessible2(i, j, player) && this.isEmpty(i, j)){							
+							s+="X ";
+					}
+					else if(this.isEmpty(i, j)){							
+							s+="  ";
 					}
 					else {
-						s+="X";
+							s+="  ";							
 					}
+					s += " | ";
+
 			}
+			s += "\n";
 		}
 		return s;
-
 	}
 
 	public boolean placeQueen2(int i, int j, Player player) {
 		if((i >= 0 && i<this.size) &&
 		   (j >= 0 && j<this.size)){
 		        if(isAccessible2(i, j, player)){        	
-		        	if(player == game.getPlayer0()){		        		
+		        	if(player.getNumber() == 0){		        		
 		        		this.setPiece(i, j, game.getQueen0());
 		        	}
-		        	if(player == game.getPlayer1()){		        		
+		        	else {		        		
 		        		this.setPiece(i, j, game.getQueen1());
 		        	}		        	
 		            return true;
@@ -559,15 +481,15 @@ public class Board {
 	public boolean placeRock2(int i, int j, Player player) {
 		if((i >= 0 && i<this.size) &&
 		   (j >= 0 && j<this.size)){
-	        if(this.board[i][j] instanceof Empty){        	
-	        	if(player == game.getPlayer0()){	        
-	        		if(this.rocksPlayer0 > 0){
+	        if(this.isEmpty(i, j)){        	
+	        	if(player.getNumber() == 0){		        		
+	        		if(this.getNumberOfRocksLeft(player) > 0){
 		        		this.setPiece(i, j, game.getRock0());
 		        		this.useRock(player);
 	        		}
 	        	}
-        		if(player == game.getPlayer1()){
-        			if(this.rocksPlayer1 > 0){
+	        	else {
+        			if(this.getNumberOfRocksLeft(player) > 0){
 			    		this.setPiece(i, j, game.getRock1());
 		        		this.useRock(player);
         			}	
@@ -606,7 +528,7 @@ public class Board {
         int acc = 0;
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                if(this.board[i][j] instanceof Queen && this.board[i][j].getPlayer() == player){
+                if(this.getPiece(i, j) instanceof Queen && this.board[i][j].getPlayer() == player){
                     acc++;
                 }
             }
@@ -618,7 +540,7 @@ public class Board {
         int acc = 0;
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                if(this.board[i][j] instanceof Rock && this.board[i][j].getPlayer() == player){
+                if(this.getPiece(i, j) instanceof Rock && this.board[i][j].getPlayer() == player){
                     acc++;
                 }
             }
@@ -628,7 +550,7 @@ public class Board {
 
 
 	//----------------------TP4&5--------------------------
-	public boolean isFinal() {
+	/*public boolean isFinal() {
 		if(this.rocksPlayer0 == 0 && this.numberOfAccessible2(this.game.getPlayer0()) == 0){
 			return true;
 		}
@@ -638,6 +560,16 @@ public class Board {
 		}
 		
 		return false;
+	}*/
+	
+	public boolean isFinal() {
+		int nombreRocher0 = this.getNumberOfRocksLeft(this.getGame().getPlayer0());
+		int nombreRocher1 = this.getNumberOfRocksLeft(this.getGame().getPlayer1());
+		int nombreAccesible0 = this.numberOfAccessible2(this.getGame().getPlayer0());
+		int nombreAccesible1 =this.numberOfAccessible2(this.getGame().getPlayer1());
+		boolean placeLibre = this.getNumberOfPieces() != (this.size*this.size);
+				
+		return (nombreRocher0==0 && nombreAccesible0==0) || (nombreRocher1==0 && nombreAccesible1==0) || !placeLibre;
 	}
 
 	public Board minimax(Board b, Player currentPlayer, int minimaxDepth, Eval evaluation) {
@@ -645,12 +577,20 @@ public class Board {
 		float score_max = Float.NEGATIVE_INFINITY;
 		float score;
 		Board e_sortie = new Board(new Game(), b.size);
+		Player adversaire;
+		if (currentPlayer.getNumber()==0) {
+			adversaire = b.getGame().getPlayer1();
+		} else {
+			adversaire = b.getGame().getPlayer0();
+		}
+
+		
 		if(b.isFinal()){
 			return b;
 		}
 		for(Board s : successeurs){
-			score = evaluation(s, currentPlayer, minimaxDepth, evaluation, currentPlayer);
-			if(score > score_max){
+			score = evaluation(s, currentPlayer, minimaxDepth, evaluation, adversaire);
+			if(score >= score_max){
 				e_sortie = s;
 				score_max = score;
 			}
@@ -687,7 +627,7 @@ public class Board {
 		float score_min = Float.POSITIVE_INFINITY;
 		successeurs = b.getSuccessors2(playing);
 		if(currentPlayer.getNumber()==playing.getNumber()){
-			System.out.println(successeurs);
+			//System.out.println(successeurs);
 			for(Board s : successeurs){
 				score_max = Math.max(score_max,evaluation(s,currentPlayer,minimaxDepth-1,evaluation,adversaire));
 			}			
@@ -708,6 +648,11 @@ public class Board {
     			if(this.isAccessible2(i, j, p)){
     				Board new_succ = this.clone();
     				new_succ.placeQueen2(i, j, p);
+    				successeurs.add(new_succ);
+    			}
+    			if(this.isEmpty(i, j) && getNumberOfRocksLeft(p) > 0){
+    				Board new_succ = this.clone();
+    				new_succ.placeRock2(i, j, p);
     				successeurs.add(new_succ);
     			}
     		}
@@ -756,19 +701,15 @@ public class Board {
     	
     	for(int i = 0; i < this.size; i++){
     		for(int j = 0; j < this.size; j++){
-    			//board[i][j] = this.getBoard()[i][j];
-    			
-    			if(this.board[i][j] instanceof Queen){
-    				b.placeQueen(i, j);
-    			}
-    			 
+    			b.board[i][j] = this.getBoard()[i][j];    			 
     		}
     	}
     	b.setRocksPlayer0(this.getRocksPlayer0());
     	b.setRocksPlayer1(this.getRocksPlayer1());
+    	
     	return b;
     }
-
+    
     public boolean isSolution(){
     	boolean result = false;
     	if(this.numberOfQueens() == this.size){

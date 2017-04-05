@@ -18,7 +18,24 @@ public class Queen implements Square {
 	}
 	
 	public String toString() {
-		return "♕";
+		if (player.getNumber()==0) {
+			return "♕";
+		} else {
+			return "♛";
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		if(obj != null && obj.getClass() == this.getClass()){			
+			Queen q = (Queen)obj;
+			if(this.player.getNumber() == q.getPlayer().getNumber()){
+				result = true;
+			}
+			
+		}		
+		return result;
 	}
 
 

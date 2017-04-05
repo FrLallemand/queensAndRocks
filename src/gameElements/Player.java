@@ -25,6 +25,20 @@ public class Player {
 		this.colorMode = colorMode;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		if(obj != null && obj.getClass() == this.getClass()){			
+			Player p = (Player)obj;
+			if(this.number == p.getNumber()
+			&& this.colorMode.equals(p.getColorMode())){
+				result = true;
+			}
+			
+		}		
+		return result;
+	}
+	
 	public String toString(){
 		String s = "";
 		if(number == 0){

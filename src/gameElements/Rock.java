@@ -18,7 +18,11 @@ public class Rock implements Square {
 	}
 
 	public String toString() {
-		return "R";
+		if (player.getNumber()==0) {
+			return "R0";
+		}
+		else {
+			return "R1";
+		}
 	}
-
 }

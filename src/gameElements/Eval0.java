@@ -5,7 +5,7 @@ public class Eval0 implements Eval {
 	@Override
 	public float getEval(Player player, Board b) {
 		Player adversaire;
-		if (player == b.getGame().getPlayer0()){
+		if (player.getNumber() == 0){
 			adversaire = b.getGame().getPlayer0();
 		}
 		else{
